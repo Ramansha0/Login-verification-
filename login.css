@@ -5,6 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0; /* prevent extra spacing on small screens */
 }
 
 .login-container {
@@ -13,6 +14,8 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 10px #aaa;
     width: 300px;
+    max-width: 90%; /* ensures it doesn’t overflow on small screens */
+    box-sizing: border-box;
 }
 
 .login-container h2 {
@@ -22,11 +25,12 @@ body {
 
 .login-container input[type="text"],
 .login-container input[type="password"] {
-    width: 93%;
+    width: 100%; /* full width inside container */
     padding: 10px;
     margin: 8px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .login-container button {
@@ -47,4 +51,21 @@ body {
 .login-container p {
     text-align: center;
     margin-top: 10px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+        width: 90%; /* take most of the screen width */
+    }
+
+    .login-container h2 {
+        font-size: 20px;
+    }
+
+    .login-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
 }
