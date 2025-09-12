@@ -16,6 +16,7 @@ body {
     width: 300px;
     max-width: 90%; /* ensures it doesn’t overflow on small screens */
     box-sizing: border-box;
+    z-index:0;
 }
 
 .login-container h2 {
@@ -52,7 +53,33 @@ body {
     text-align: center;
     margin-top: 10px;
 }
+.notification {
 
+    text-align: center;
+    margin-top: 10px;
+    height:150px;
+    width: 300px;
+    background-color: lightgrey;
+    border-radius: 10px;
+position:absolute;
+z-index:1;
+margin-top: -350px;
+margin-left:800px;
+display:none;
+animation-name: slide;
+animation-duration: 1s;
+}
+@keyframes slide{
+    0% {
+        transform: translateX(300px); /* start off-screen right */
+        opacity: 0;                  /* fade in */
+    }
+
+    100% {
+        transform: translateX(0);     /* final position */
+        opacity: 1;                   /* fully visible */
+    }
+}
 /* Media query for smaller screens */
 @media (max-width: 480px) {
     .login-container {
