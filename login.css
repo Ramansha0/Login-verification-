@@ -57,7 +57,7 @@ body {
 
     text-align: center;
     margin-top: 10px;
-    height:150px;
+    height:160px;
     width: 300px;
     background-color: lightgrey;
     border-radius: 10px;
@@ -69,17 +69,31 @@ display:none;
 animation-name: slide;
 animation-duration: 1s;
 }
+.notification p {
+    font-size:18px;
+    font-weight:700
+}
+.notification button {
+    width:70px;
+}
+#users,#passes{
+    border:none;
+    margin-top:-29px;
+    margin-bottom:10px;
+    height:25px
+}
 @keyframes slide{
     0% {
-        transform: translateX(300px); /* start off-screen right */
-        opacity: 0;                  /* fade in */
+       
+        opacity: 0;               
     }
 
     100% {
-        transform: translateX(0);     /* final position */
-        opacity: 1;                   /* fully visible */
+        
+        opacity: 1;                 
     }
 }
+
 /* Media query for smaller screens */
 @media (max-width: 480px) {
     .login-container {
